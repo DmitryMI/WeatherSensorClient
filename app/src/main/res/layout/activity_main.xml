@@ -6,13 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/formTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#003AB1"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="@string/weather_sensor_client"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            tools:text="Weather sensor client" />
+
+        <LinearLayout
+            android:id="@+id/weatherDataLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/temperatureLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/temperature_icon"
+                android:text="25.0 °C"
+                android:textAlignment="viewStart"
+                android:textColor="#000000"
+                android:textSize="72sp" />
+
+            <TextView
+                android:id="@+id/humidityLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/humidity_icon"
+                android:drawableTint="#000000"
+                android:text="65.0%"
+                android:textAlignment="viewStart"
+                android:textColor="#000000"
+                android:textSize="72sp" />
+
+            <TextView
+                android:id="@+id/pressureLabel"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/pressure_icon"
+                android:text="101.0 kPa"
+                android:textAlignment="viewStart"
+                android:textColor="#000000"
+                android:textSize="56sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
