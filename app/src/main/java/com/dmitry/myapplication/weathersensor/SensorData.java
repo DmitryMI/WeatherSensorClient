@@ -17,6 +17,11 @@ public class SensorData
         this.timestamp = timestamp;
     }
 
+    public SensorData()
+    {
+
+    }
+
     public double getTemperature()
     {
         return temperature;

@@ -11,6 +11,7 @@ import com.dmitry.myapplication.weathersensor.WeatherState;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class MockWeatherProvider implements WeatherProvider
@@ -21,6 +22,8 @@ public class MockWeatherProvider implements WeatherProvider
     private WeatherReportReadyInvokable callbackHandler = null;
     private WeatherReport report = null;
     private WeatherReportTask task;
+
+    private boolean generated = false;
 
     @Override
     public void requestWeatherReport(WeatherReportReadyInvokable callbackHandler)
@@ -63,35 +66,39 @@ public class MockWeatherProvider implements WeatherProvider
         return 1;
     }
 
-    private WeatherReport createMockReport()
+    public WeatherReport createMockReport()
     {
-        int count = HistoryLength;
-        SensorData[] history = new SensorData[count];
-
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.HOUR, -count);
-        Date startTime = cal.getTime();
-
-        history[0] = new SensorData(getRandom(13, 26), getRandom(35, 70), getRandom(90, 120), startTime);
-
-        int pressureDerivativeSign = getRandomSign();
-        WeatherState state = WeatherState.SUNNY;
-        if(pressureDerivativeSign == -1)
+        if(this.report == null)
         {
-            state = WeatherState.CLOUDY;
-        }
-        for(int i = 1; i < count; i++)
-        {
-            double t = history[i - 1].getTemperature() + getRandom(-2, 2);
-            double h = history[i - 1].getHumidity() + getRandom(-5, +5);
-            double p = history[i - 1].getPressure() + pressureDerivativeSign * getRandom(1, 3);
-            cal.add(Calendar.HOUR, 1);
-            Date time = cal.getTime();
-            history[i] = new SensorData(t, h, p, time);
-        }
+            int count = HistoryLength;
+            SensorData[] history = new SensorData[count];
 
-        WeatherReport report = new WeatherReport(history, state);
-        return report;
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.HOUR, -count);
+            Date startTime = cal.getTime();
+
+            history[0] = new SensorData(getRandom(13, 26), getRandom(35, 70), getRandom(90, 120), startTime);
+
+            int pressureDerivativeSign = getRandomSign();
+            WeatherState state = WeatherState.SUNNY;
+            if (pressureDerivativeSign == -1)
+            {
+                state = WeatherState.CLOUDY;
+            }
+            for (int i = 1; i < count; i++)
+            {
+                double t = history[i - 1].getTemperature() + getRandom(-2, 2);
+                double h = history[i - 1].getHumidity() + getRandom(-5, +5);
+                double p = history[i - 1].getPressure() + pressureDerivativeSign * getRandom(1, 3);
+                cal.add(Calendar.HOUR, 1);
+                Date time = cal.getTime();
+                history[i] = new SensorData(t, h, p, time);
+            }
+
+            this.report = new WeatherReport(history, state);
+            return report;
+        }
+        return this.report;
     }
 
     static class WeatherReportTask extends AsyncTask<Object, Void, Void>

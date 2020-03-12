@@ -153,6 +153,12 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
     }
 
     @Override
+    public void OnWeatherReportError(int errorCode)
+    {
+
+    }
+
+    @Override
     public void TimerInvoke()
     {
         weatherProvider.requestWeatherReport(this);

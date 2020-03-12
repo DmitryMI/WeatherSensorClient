@@ -29,6 +29,15 @@ public class WeatherReport
         this.weatherForecast = weatherForecast;
     }
 
+    public WeatherReport(SensorData[] history, WeatherState weatherForecast, String tUnits, String hUnits, String pUnits)
+    {
+        sensorDataHistory = history;
+        this.weatherForecast = weatherForecast;
+        temperatureUnits = tUnits;
+        humidityUnits = hUnits;
+        pressureUnits = pUnits;
+    }
+
     public SensorData getMostRecent()
     {
         return sensorDataHistory[sensorDataHistory.length - 1];
