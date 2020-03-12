@@ -3,8 +3,5 @@
     <alpha
         android:fromAlpha="0.0"
         android:toAlpha="1"
-        android:duration="500" />
-    <translate android:fromXDelta="50%" android:toXDelta="0%"
-        android:duration="500"
-        android:zAdjustment="bottom" />
+        android:duration="1000" />
 </set>
