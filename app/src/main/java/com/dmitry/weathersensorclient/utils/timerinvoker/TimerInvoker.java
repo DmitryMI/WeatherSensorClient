@@ -1,4 +1,4 @@
-package com.dmitry.myapplication.utils.timerinvoker;
+package com.dmitry.weathersensorclient.utils.timerinvoker;
 
 
 import android.os.Handler;
@@ -15,6 +15,10 @@ public class TimerInvoker
 
     public void start(int periodMs)
     {
+        if(handler != null)
+        {
+            stop();
+        }
         handler = new Handler();
         runnable = new TimerRunnable(periodMs);
         handler.postDelayed(runnable, periodMs);
@@ -22,7 +26,10 @@ public class TimerInvoker
 
     public void stop()
     {
-        handler.removeCallbacks(runnable);
+        if(handler != null)
+        {
+            handler.removeCallbacks(runnable);
+        }
         runnable = null;
         handler = null;
     }
@@ -44,7 +51,10 @@ public class TimerInvoker
         public void run()
         {
             periodElapsed();
-            handler.postDelayed(this, millis);
+            if(handler != null)
+            {
+                handler.postDelayed(this, millis);
+            }
         }
     }
 }

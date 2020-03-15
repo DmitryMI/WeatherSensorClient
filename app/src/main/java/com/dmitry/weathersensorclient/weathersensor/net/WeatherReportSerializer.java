@@ -1,7 +1,7 @@
-package com.dmitry.myapplication.weathersensor.net;
+package com.dmitry.weathersensorclient.weathersensor.net;
 
-import com.dmitry.myapplication.weathersensor.SensorData;
-import com.dmitry.myapplication.weathersensor.WeatherReport;
+import com.dmitry.weathersensorclient.weathersensor.SensorData;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;

@@ -1,4 +1,4 @@
-package com.dmitry.myapplication;
+package com.dmitry.weathersensorclient;
 
 import org.junit.Test;
 

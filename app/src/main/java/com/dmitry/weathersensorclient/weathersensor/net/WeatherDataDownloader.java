@@ -1,6 +1,4 @@
-package com.dmitry.myapplication.weathersensor.net;
-
-import com.dmitry.myapplication.weathersensor.WeatherReportReadyInvokable;
+package com.dmitry.weathersensorclient.weathersensor.net;
 
 public interface WeatherDataDownloader
 {

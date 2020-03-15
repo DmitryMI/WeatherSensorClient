@@ -1,8 +1,6 @@
-package com.dmitry.myapplication.weathersensor.net;
+package com.dmitry.weathersensorclient.weathersensor.net;
 
 import android.content.Context;
-
-import com.dmitry.myapplication.weathersensor.mock.MockJsonGenerator;
 
 public class WeatherDataDownloaderBuilder
 {

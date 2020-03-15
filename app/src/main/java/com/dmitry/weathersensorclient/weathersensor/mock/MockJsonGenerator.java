@@ -1,9 +1,9 @@
-package com.dmitry.myapplication.weathersensor.mock;
+package com.dmitry.weathersensorclient.weathersensor.mock;
 
-import com.dmitry.myapplication.weathersensor.WeatherReport;
-import com.dmitry.myapplication.weathersensor.net.WeatherDataDownloader;
-import com.dmitry.myapplication.weathersensor.net.WeatherDataReadyInvokable;
-import com.dmitry.myapplication.weathersensor.net.WeatherReportSerializer;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
+import com.dmitry.weathersensorclient.weathersensor.net.WeatherDataDownloader;
+import com.dmitry.weathersensorclient.weathersensor.net.WeatherDataReadyInvokable;
+import com.dmitry.weathersensorclient.weathersensor.net.WeatherReportSerializer;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;

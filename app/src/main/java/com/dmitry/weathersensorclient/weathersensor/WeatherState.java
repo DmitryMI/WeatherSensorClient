@@ -1,4 +1,4 @@
-package com.dmitry.myapplication.weathersensor;
+package com.dmitry.weathersensorclient.weathersensor;
 
 public enum WeatherState
 {

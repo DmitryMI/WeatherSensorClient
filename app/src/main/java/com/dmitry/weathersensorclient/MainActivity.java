@@ -1,22 +1,20 @@
-package com.dmitry.myapplication;
+package com.dmitry.weathersensorclient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dmitry.myapplication.utils.timerinvoker.TimerInvoker;
-import com.dmitry.myapplication.utils.timerinvoker.TimerInvokerCallback;
-import com.dmitry.myapplication.weathersensor.WeatherReportReadyInvokable;
-import com.dmitry.myapplication.weathersensor.SensorData;
-import com.dmitry.myapplication.weathersensor.WeatherProvider;
-import com.dmitry.myapplication.weathersensor.WeatherProviderBuilder;
-import com.dmitry.myapplication.weathersensor.WeatherReport;
+import com.dmitry.weathersensorclient.utils.timerinvoker.TimerInvoker;
+import com.dmitry.weathersensorclient.utils.timerinvoker.TimerInvokerCallback;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReportReadyInvokable;
+import com.dmitry.weathersensorclient.weathersensor.SensorData;
+import com.dmitry.weathersensorclient.weathersensor.WeatherProvider;
+import com.dmitry.weathersensorclient.weathersensor.WeatherProviderBuilder;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -58,6 +56,20 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
             timerInvoker = new TimerInvoker(this);
             timerInvoker.start(REFRESH_PERIOD);
         }
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        timerInvoker.stop();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        timerInvoker.start(REFRESH_PERIOD);
     }
 
     protected void SetStartAnimation()
@@ -142,7 +154,8 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
             Date timestamp = report.elementAt(i).getTimestamp();
             double pressure = report.elementAt(i).getPressure();
             long diffMillis = now.getTime() - timestamp.getTime();
-            int hours = -(int)Math.round(diffMillis / 1000.0 / 60.0 / 60.0);
+            double diffHours = (double)diffMillis / 1000.0 / 60.0 / 60.0;
+            double hours = -diffHours;
             DataPoint point = new DataPoint(hours, pressure);
 
             if(i > 0)
@@ -155,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
 
             if(timestampOrderOk)
             {
-                series.appendData(point, true, 10, true);
+                series.appendData(point, true, 1200, true);
             }
 
             previousTimestamp = diffMillis;

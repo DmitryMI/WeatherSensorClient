@@ -1,4 +1,4 @@
-package com.dmitry.myapplication.weathersensor.net;
+package com.dmitry.weathersensorclient.weathersensor.net;
 
 public interface WeatherDataReadyInvokable
 {

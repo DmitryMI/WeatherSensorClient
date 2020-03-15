@@ -1,4 +1,4 @@
-package com.dmitry.myapplication.utils.timerinvoker;
+package com.dmitry.weathersensorclient.utils.timerinvoker;
 
 public interface TimerInvokerCallback
 {

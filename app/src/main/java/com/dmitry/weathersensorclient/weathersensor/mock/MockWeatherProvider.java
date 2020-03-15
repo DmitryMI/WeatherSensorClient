@@ -1,17 +1,15 @@
-package com.dmitry.myapplication.weathersensor.mock;
+package com.dmitry.weathersensorclient.weathersensor.mock;
 
 import android.os.AsyncTask;
 
-import com.dmitry.myapplication.weathersensor.WeatherReportReadyInvokable;
-import com.dmitry.myapplication.weathersensor.SensorData;
-import com.dmitry.myapplication.weathersensor.WeatherProvider;
-import com.dmitry.myapplication.weathersensor.WeatherReport;
-import com.dmitry.myapplication.weathersensor.WeatherReportReadyInvokable;
-import com.dmitry.myapplication.weathersensor.WeatherState;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReportReadyInvokable;
+import com.dmitry.weathersensorclient.weathersensor.SensorData;
+import com.dmitry.weathersensorclient.weathersensor.WeatherProvider;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
+import com.dmitry.weathersensorclient.weathersensor.WeatherState;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 public class MockWeatherProvider implements WeatherProvider

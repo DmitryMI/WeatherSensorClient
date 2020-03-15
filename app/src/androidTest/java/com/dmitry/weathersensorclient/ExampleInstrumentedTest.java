@@ -1,4 +1,4 @@
-package com.dmitry.myapplication;
+package com.dmitry.weathersensorclient;
 
 import android.content.Context;
 

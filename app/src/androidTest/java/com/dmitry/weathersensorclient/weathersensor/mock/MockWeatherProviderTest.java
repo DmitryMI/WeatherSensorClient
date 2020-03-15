@@ -1,11 +1,9 @@
-package com.dmitry.myapplication.weathersensor.mock;
+package com.dmitry.weathersensorclient.weathersensor.mock;
 
-import com.dmitry.myapplication.weathersensor.WeatherReportReadyInvokable;
-import com.dmitry.myapplication.weathersensor.WeatherReport;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReportReadyInvokable;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class MockWeatherProviderTest
 {

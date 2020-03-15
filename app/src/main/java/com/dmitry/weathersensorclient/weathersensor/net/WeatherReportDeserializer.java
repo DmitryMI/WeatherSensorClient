@@ -1,8 +1,8 @@
-package com.dmitry.myapplication.weathersensor.net;
+package com.dmitry.weathersensorclient.weathersensor.net;
 
-import com.dmitry.myapplication.weathersensor.SensorData;
-import com.dmitry.myapplication.weathersensor.WeatherReport;
-import com.dmitry.myapplication.weathersensor.WeatherState;
+import com.dmitry.weathersensorclient.weathersensor.SensorData;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
+import com.dmitry.weathersensorclient.weathersensor.WeatherState;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class WeatherReportDeserializer extends StdDeserializer<WeatherReport>
 {

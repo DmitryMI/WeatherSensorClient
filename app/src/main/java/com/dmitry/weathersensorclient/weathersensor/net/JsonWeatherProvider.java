@@ -1,11 +1,10 @@
-package com.dmitry.myapplication.weathersensor.net;
+package com.dmitry.weathersensorclient.weathersensor.net;
 
-import android.util.JsonReader;
 import android.util.Log;
 
-import com.dmitry.myapplication.weathersensor.WeatherProvider;
-import com.dmitry.myapplication.weathersensor.WeatherReport;
-import com.dmitry.myapplication.weathersensor.WeatherReportReadyInvokable;
+import com.dmitry.weathersensorclient.weathersensor.WeatherProvider;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
+import com.dmitry.weathersensorclient.weathersensor.WeatherReportReadyInvokable;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;

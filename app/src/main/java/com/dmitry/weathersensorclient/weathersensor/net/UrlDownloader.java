@@ -1,21 +1,15 @@
-package com.dmitry.myapplication.weathersensor.net;
+package com.dmitry.weathersensorclient.weathersensor.net;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.util.Xml;
 
-import com.dmitry.myapplication.R;
+import com.dmitry.weathersensorclient.R;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -28,7 +22,7 @@ public class UrlDownloader implements WeatherDataDownloader
         URL_SERVER_ERROR
     }
 
-    private String serverIp = "192.168.1.9:3000";
+    private String serverIp = "192.168.1.76:3000";
     private ErrorEnum error;
 
     private WeatherDataReadyInvokable callback = null;
@@ -60,6 +54,7 @@ public class UrlDownloader implements WeatherDataDownloader
     private String readDataSync(int channelId, long fromDate, long toDate)
     {
         error = ErrorEnum.URL_OK;
+        Log.i(this.getClass().getName(), "Url request appered");
         try
         {
             String query = String.format(Locale.US,
@@ -146,8 +141,8 @@ public class UrlDownloader implements WeatherDataDownloader
         {
             invoker = (UrlDownloader)objects[0];
             int channelId = (int)objects[1];
-            long fromDate = (int)objects[2];
-            long toDate = (int)objects[3];
+            long fromDate = (long)objects[2];
+            long toDate = (long)objects[3];
             result = invoker.readDataSync(channelId, fromDate, toDate);
             return null;
         }
