@@ -2,4 +2,6 @@
     <string name="app_name">WeatherSensorClient</string>
     <string name="weather_sensor_client">Weather sensor client</string>
     <string name="icon_for_temperature_label">Icon for temperature label</string>
+    <string name="url_error_message">Server not responding or data is not available</string>
+    <string name="main_activity_error">Connection error</string>
 </resources>

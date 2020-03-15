@@ -43,7 +43,7 @@ public class MockJsonGenerator implements WeatherDataDownloader
         catch (IOException e)
         {
             e.printStackTrace();
-            callback.OnWeatherDataError(0);
+            callback.OnWeatherDataError("UNDEFINED", "Should not happen, but shit happens");
         }
     }
 

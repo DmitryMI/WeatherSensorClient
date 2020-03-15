@@ -10,17 +10,21 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.StringReader;
 
 public class JsonWeatherProvider implements WeatherProvider, WeatherDataReadyInvokable
 {
-    WeatherDataDownloader downloader;
-    WeatherReport report = null;
-    WeatherReportReadyInvokable callback;
+    public enum ErrorEnum
+    {
+        PROVIDER_OK,
+        PROVIDER_SOURCE_ERROR,
+        PROVIDER_DESERIALIZATION_ERROR
+    }
+
+    private WeatherDataDownloader downloader;
+    private WeatherReport report = null;
+    private WeatherReportReadyInvokable callback;
     public JsonWeatherProvider(WeatherDataDownloader downloader)
     {
         this.downloader = downloader;
@@ -65,13 +69,13 @@ public class JsonWeatherProvider implements WeatherProvider, WeatherDataReadyInv
         } catch (IOException e)
         {
             e.printStackTrace();
-            callback.OnWeatherReportError(0);
+            callback.OnWeatherReportError(ErrorEnum.PROVIDER_DESERIALIZATION_ERROR.toString(), e.getMessage());
         }
     }
 
     @Override
-    public void OnWeatherDataError(int errorCode)
+    public void OnWeatherDataError(String errorCode, String message)
     {
-        callback.OnWeatherReportError(-1);
+        callback.OnWeatherReportError( ErrorEnum.PROVIDER_SOURCE_ERROR.toString(), message);
     }
 }

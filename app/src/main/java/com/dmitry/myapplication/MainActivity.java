@@ -3,9 +3,12 @@ package com.dmitry.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dmitry.myapplication.utils.timerinvoker.TimerInvoker;
 import com.dmitry.myapplication.utils.timerinvoker.TimerInvokerCallback;
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
 
         if(weatherProvider == null)
         {
-            weatherProvider = WeatherProviderBuilder.getWeatherProvider();
+            weatherProvider = WeatherProviderBuilder.getWeatherProvider(getApplicationContext());
         }
 
         SetStartAnimation();
@@ -111,7 +114,13 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
         String humidityStr = String.format(Locale.US, "%1.1f", mostRecent.getHumidity());
         String pressureStr = String.format(Locale.US, "%2.1f", mostRecent.getPressure());
 
-        temperatureStr += report.getTemperatureUnits();
+        String temperatureUnits = report.getTemperatureUnits(); // FIXME Shitty hack
+        if(temperatureUnits.equals("C"))
+        {
+            temperatureUnits = "°C";
+        }
+
+        temperatureStr += temperatureUnits;
         humidityStr += report.getHumidityUnits();
         pressureStr += report.getPressureUnits();
 
@@ -123,9 +132,11 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
     protected void UpdatePressureGraph(WeatherReport report)
     {
         GraphView graph = findViewById(R.id.pressureHistory);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
         Date now = Calendar.getInstance().getTime();
+        long previousTimestamp = 0;
+        boolean timestampOrderOk = true;
         for(int i = 0; i < report.getHistoryLength(); i++)
         {
             Date timestamp = report.elementAt(i).getTimestamp();
@@ -133,16 +144,38 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
             long diffMillis = now.getTime() - timestamp.getTime();
             int hours = -(int)Math.round(diffMillis / 1000.0 / 60.0 / 60.0);
             DataPoint point = new DataPoint(hours, pressure);
-            series.appendData(point, true, 10, true);
+
+            if(i > 0)
+            {
+                if(diffMillis >= previousTimestamp)
+                {
+                    timestampOrderOk = false;
+                }
+            }
+
+            if(timestampOrderOk)
+            {
+                series.appendData(point, true, 10, true);
+            }
+
+            previousTimestamp = diffMillis;
         }
         graph.removeAllSeries();
-        graph.addSeries(series);
-        graph.setTitle("Pressure alteration");
+        if(report.getHistoryLength() >= 2 && timestampOrderOk)
+        {
+            graph.addSeries(series);
+            graph.setTitle("Pressure alteration");
+        }
+        else
+        {
+            graph.setTitle("Pressure alteration (unavailable)");
+        }
     }
 
     @Override
     public void OnWeatherReportReady(WeatherReport report)
     {
+        ClearError();
         UpdateCurrentWeather(report);
         UpdatePressureGraph(report);
         if(animationPending)
@@ -153,9 +186,29 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
     }
 
     @Override
-    public void OnWeatherReportError(int errorCode)
+    public void OnWeatherReportError(String errorCode, String message)
     {
+        /*TextView errorTextView = findViewById(R.id.errorTextVIew);
+        errorTextView.setText(R.string.main_activity_error);
 
+        ViewGroup.LayoutParams layoutParams = errorTextView.getLayoutParams();
+        layoutParams.height = 10;
+        errorTextView.setLayoutParams(layoutParams);
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.major_failure);
+        animation.setRepeatCount(Animation.INFINITE);
+        errorTextView.startAnimation(animation);*/
+
+        Toast errorMessage = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        errorMessage.show();
+    }
+
+    private void ClearError()
+    {
+        //TextView title = findViewById(R.id.formTitle);
+        //title.clearAnimation();
+        //title.setText(getText(R.string.weather_sensor_client));
+        //title.setAlpha(1);
     }
 
     @Override

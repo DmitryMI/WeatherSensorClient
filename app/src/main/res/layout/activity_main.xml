@@ -10,24 +10,13 @@
         android:id="@+id/linearLayout"
         android:layout_width="409dp"
         android:layout_height="729dp"
+        android:layout_marginTop="35dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/formTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#003AB1"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="@string/weather_sensor_client"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            tools:text="Weather sensor client" />
 
         <LinearLayout
             android:id="@+id/weatherDataLayout"
