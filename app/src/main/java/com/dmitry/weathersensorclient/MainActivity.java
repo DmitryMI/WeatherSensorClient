@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dmitry.weathersensorclient.utils.filters.MedianFilter;
 import com.dmitry.weathersensorclient.utils.timerinvoker.TimerInvoker;
 import com.dmitry.weathersensorclient.utils.timerinvoker.TimerInvokerCallback;
 import com.dmitry.weathersensorclient.weathersensor.WeatherReportReadyInvokable;
@@ -16,6 +17,7 @@ import com.dmitry.weathersensorclient.weathersensor.WeatherProvider;
 import com.dmitry.weathersensorclient.weathersensor.WeatherProviderBuilder;
 import com.dmitry.weathersensorclient.weathersensor.WeatherReport;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
 
         String temperatureStr = String.format(Locale.US, "%1.1f", mostRecent.getTemperature());
         String humidityStr = String.format(Locale.US, "%1.1f", mostRecent.getHumidity());
-        String pressureStr = String.format(Locale.US, "%2.1f", mostRecent.getPressure());
+        String pressureStr = String.format(Locale.US, "%2.3f", mostRecent.getPressure());
 
         String temperatureUnits = report.getTemperatureUnits(); // FIXME Shitty hack
         if(temperatureUnits.equals("C"))
@@ -144,26 +146,45 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
     protected void UpdatePressureGraph(WeatherReport report)
     {
         GraphView graph = findViewById(R.id.pressureHistory);
+        graph.removeAllSeries();
+        if(report.getHistoryLength() < 3)
+        {
+            graph.setTitle("Pressure alteration (unavailable)");
+            return;
+        }
+
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
         Date now = Calendar.getInstance().getTime();
         long previousTimestamp = 0;
         boolean timestampOrderOk = true;
+
+        double[] pressureHistory = report.getPressureHistory();
+        MedianFilter filter = new MedianFilter();
+
+        int windowSize = pressureHistory.length / 10;
+        if(windowSize < 3)
+            windowSize = 3;
+        double[] pressureFiltered = filter.Filtrate(pressureHistory, windowSize);
+
+        double minTime = 0;
+
         for(int i = 0; i < report.getHistoryLength(); i++)
         {
             Date timestamp = report.elementAt(i).getTimestamp();
-            double pressure = report.elementAt(i).getPressure();
+            double pressure = pressureFiltered[i];
             long diffMillis = now.getTime() - timestamp.getTime();
             double diffHours = (double)diffMillis / 1000.0 / 60.0 / 60.0;
             double hours = -diffHours;
+            if(hours < minTime)
+            {
+                minTime = hours;
+            }
             DataPoint point = new DataPoint(hours, pressure);
 
-            if(i > 0)
+            if(i > 0 && diffMillis >= previousTimestamp)
             {
-                if(diffMillis >= previousTimestamp)
-                {
-                    timestampOrderOk = false;
-                }
+                timestampOrderOk = false;
             }
 
             if(timestampOrderOk)
@@ -173,10 +194,15 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
 
             previousTimestamp = diffMillis;
         }
-        graph.removeAllSeries();
-        if(report.getHistoryLength() >= 2 && timestampOrderOk)
+        if(timestampOrderOk)
         {
             graph.addSeries(series);
+            series.setThickness(10);
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMaxX(0.3);
+            graph.getViewport().setMinX(minTime);
+            //graph.getGridLabelRenderer().setNumVerticalLabels(4);
+            graph.getGridLabelRenderer().setNumHorizontalLabels(4);
             graph.setTitle("Pressure alteration");
         }
         else

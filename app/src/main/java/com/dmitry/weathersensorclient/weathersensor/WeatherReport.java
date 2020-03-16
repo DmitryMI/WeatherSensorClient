@@ -1,5 +1,7 @@
 package com.dmitry.weathersensorclient.weathersensor;
 
+import java.util.Date;
+
 public class WeatherReport
 {
     private SensorData[] sensorDataHistory;
@@ -11,6 +13,50 @@ public class WeatherReport
     public SensorData elementAt(int i)
     {
         return sensorDataHistory[i];
+    }
+
+    public double pressureAt(int i){return sensorDataHistory[i].getPressure();}
+    public double temperatureAt(int i){return sensorDataHistory[i].getTemperature();}
+    public double humidityAt(int i){return sensorDataHistory[i].getHumidity();}
+
+    public double[] getPressureHistory()
+    {
+        double[] pressure = new double[sensorDataHistory.length];
+        for(int i = 0; i < sensorDataHistory.length; i++)
+        {
+            pressure[i] = sensorDataHistory[i].getPressure();
+        }
+        return pressure;
+    }
+
+    public double[] getTemperatureHistory()
+    {
+        double[] temperature = new double[sensorDataHistory.length];
+        for(int i = 0; i < sensorDataHistory.length; i++)
+        {
+            temperature[i] = sensorDataHistory[i].getTemperature();
+        }
+        return temperature;
+    }
+
+    public double[] getHumidityHistory()
+    {
+        double[] humidity = new double[sensorDataHistory.length];
+        for(int i = 0; i < sensorDataHistory.length; i++)
+        {
+            humidity[i] = sensorDataHistory[i].getHumidity();
+        }
+        return humidity;
+    }
+
+    public Date[] getTimestamps()
+    {
+        Date[] time = new Date[sensorDataHistory.length];
+        for(int i = 0; i < sensorDataHistory.length; i++)
+        {
+            time[i] = sensorDataHistory[i].getTimestamp();
+        }
+        return time;
     }
 
     public int getHistoryLength()
