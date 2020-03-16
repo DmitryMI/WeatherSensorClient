@@ -168,11 +168,17 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
         double[] pressureFiltered = filter.Filtrate(pressureHistory, windowSize);
 
         double minTime = 0;
+        double minPressure = pressureFiltered[0];
+        double maxPressure = pressureFiltered[0];
 
         for(int i = 0; i < report.getHistoryLength(); i++)
         {
             Date timestamp = report.elementAt(i).getTimestamp();
             double pressure = pressureFiltered[i];
+            if(pressure < minPressure)
+                minPressure = pressure;
+            if(pressure > maxPressure)
+                maxPressure = pressure;
             long diffMillis = now.getTime() - timestamp.getTime();
             double diffHours = (double)diffMillis / 1000.0 / 60.0 / 60.0;
             double hours = -diffHours;
@@ -189,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
 
             if(timestampOrderOk)
             {
-                series.appendData(point, true, 1200, true);
+                series.appendData(point, true, 6000, true);
             }
 
             previousTimestamp = diffMillis;
@@ -198,11 +204,15 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
         {
             graph.addSeries(series);
             series.setThickness(10);
+            //graph.getGridLabelRenderer().setHumanRounding(false, true);
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setMaxX(0.3);
+            graph.getViewport().setMinX(minTime - 0.1);
+            graph.getViewport().setMinY(minPressure - 0.01);
+            graph.getViewport().setMaxY(maxPressure + 0.01);
             graph.getViewport().setMinX(minTime);
             //graph.getGridLabelRenderer().setNumVerticalLabels(4);
-            graph.getGridLabelRenderer().setNumHorizontalLabels(4);
+            graph.getGridLabelRenderer().setNumHorizontalLabels(5);
             graph.setTitle("Pressure alteration");
         }
         else
