@@ -119,10 +119,22 @@ public class MainActivity extends AppCompatActivity implements WeatherReportRead
 
     protected void UpdateCurrentWeather(WeatherReport report)
     {
-        SensorData mostRecent = report.getMostRecent();
         TextView temperatureLabel = findViewById(R.id.temperatureLabel);
         TextView humidityLabel = findViewById(R.id.humidityLabel);
         TextView pressureLabel = findViewById(R.id.pressureLabel);
+
+        int historyLength = report.getHistoryLength();
+
+        if(historyLength == 0)
+        {
+            temperatureLabel.setText("N/A");
+            humidityLabel.setText("N/A");
+            pressureLabel.setText("N/A");
+            return;
+        }
+
+        SensorData mostRecent = report.getMostRecent();
+
 
         String temperatureStr = String.format(Locale.US, "%1.1f", mostRecent.getTemperature());
         String humidityStr = String.format(Locale.US, "%1.1f", mostRecent.getHumidity());
